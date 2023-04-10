@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<title>Text 2 Prompts Convertor</title>
+	
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
+		
+	</head>
+
+	<body>
+	
+	<!-- <nav class="navbar navbar-expand-lg bg-body-tertiary">
+		<div class="container-fluid">
+			<a class="navbar-brand" href="#">Text 2 Prompts Convertor</a>
+		</div>
+	</nav>-->
+		<!-- Main Content -->
+		<div class="container mt-5">
+			<div class="row">
+			
+				<!-- Positive Prompts -->
+				<div class="col-6">
+					<div class="mb-3">
+						  
+						  <label for="entry_positive" class="form-label badge text-bg-success">Entry Positive Prompts</label>
+						  <input class="form-control mb-3" type="file" id="csvFile" accept=".csv" onchange="load_file(this,'positive_prompts');"/>
+						  <div class="d-grid">
+							<button type="submit" class="btn btn-success" onclick="add_to_fromBoard('positive');">Add Positive Prompts from Clipboard</button>
+						  </div>
+						  <!--<div class="input-group">
+							  <textarea class="form-control" id="entry_positive" placeholder="Entry Positive Prompts..."></textarea>
+							  <button type="submit" class="btn btn-secondary" onclick="paste_to_textbox('entry_positive');">Paste</button>
+							  <button type="submit" class="btn btn-outline-secondary" onclick="clear_textbox('entry_positive');">Clear</button>
+							  
+						  </div>-->
+					</div>
+					
+					<div class="mb-3">
+						  <label for="positive_prompts" class="form-label badge text-bg-secondary">Positive Prompts</label>
+						  <textarea class="form-control" id="positive_prompts" rows="10"></textarea>
+					</div>
+					<p id = "pos_count">Total: 0 record(s)</p>
+					<div class="d-grid">
+						<button type="submit" class="btn btn-success mb-3" onclick="copy_to_clipboard('positive_prompts');">Copy to Clipboard</button>
+						<button type="submit" class="btn btn-success" onclick="save_to_csv('positive_prompts');">Save as CSV</button>
+					</div>
+				</div>
+				<!-- End of Positive Prompts -->
+				
+				<!-- Negative Prompts -->
+				<div class="col-6">
+					<div class="mb-3">
+						  <label for="entry_negative" class="form-label badge text-bg-danger">Entry Negative Prompts</label>
+						  <input class="form-control mb-3" type="file" id="csvFile" accept=".csv" onchange="load_file(this,'negative_prompts');"/>
+						  <div class="d-grid">
+							<button type="submit" class="btn btn-danger" onclick="add_to_fromBoard('negative');">Add Negative Prompts from Clipboard</button>
+						  </div>
+						  <!--
+						  <div class="input-group">
+							  <textarea class="form-control" id="entry_negative" placeholder="Entry Negative Prompts..."></textarea>
+							  <button type="submit" class="btn btn-secondary" onclick="paste_to_textbox('entry_negative');">Paste</button>
+							  <button type="submit" class="btn btn-outline-secondary" onclick="clear_textbox('entry_negative');">Clear</button>
+							  <button type="submit" class="btn btn-danger" onclick="add_to_prompts('negative');">Add Prompts</button>
+						  </div>
+						  -->
+					</div>
+					<div class="mb-3">
+						  <label for="negative_prompts" class="form-label badge text-bg-secondary">Negative Prompts</label>
+						  <textarea class="form-control" id="negative_prompts" rows="10"></textarea>
+					</div>
+					<p id = "neg_count">Total: 0 record(s)</p>
+					<div class="d-grid">
+						<button type="submit" class="btn btn-danger mb-3" onclick="copy_to_clipboard('negative_prompts');">Copy to Clipboard</button>
+						<button type="submit" class="btn btn-danger" onclick="save_to_csv('negative_prompts');">Save as CSV</button>
+					</div>
+				</div>
+				<!-- End of Negative Prompts -->
+	
+			</div>
+		</div>
+		<!-- End of Main Content -->
+	
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js" integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N" crossorigin="anonymous"></script>
+		<script src='./js/js_entry.js'></script>
+	</body>
+
+</html>

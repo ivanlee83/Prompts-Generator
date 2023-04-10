@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<title>Prompts Generator</title>
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jerosoler/Drawflow/dist/drawflow.min.css">
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+		<link rel="stylesheet" type="text/css" href="./css/beautiful.css" />
+		<script src="https://cdn.jsdelivr.net/gh/jerosoler/Drawflow/dist/drawflow.min.js"></script>
+		
+	</head>
+	
+	<body onload='add_root_node()'>
+
+		<nav class="navbar navbar-expand-lg bg-body-tertiary sticky-top shadow-sm" style='height:40px'>
+		
+		  <div class="container-fluid">
+			<a class="navbar-brand"><b>&emsp;&emsp;PROMPTS</b></a>
+			<div class="collapse navbar-collapse" id="navbarNavDropdown">
+			
+			
+				<ul class="navbar-nav">
+
+					&emsp;
+					
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Files</a>
+						<ul class="dropdown-menu">
+							
+							
+							<!--<li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#new_modal">&emsp;New</a></li>
+							<li><hr class="dropdown-divider"></li>-->
+							
+							<li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#save_change_modal" >&emsp;Open...</a></li>
+							<li hidden><input class="dropdown-item form-control form-control-sm " type="file" id="loadnodes" accept=".csv" onchange='ui_load_nodes("loadnodes");'/></li>
+							
+							<li><a class="dropdown-item" href="#" onclick='ui_save_nodes();'>&emsp;Save As...</a></li>
+							<li><hr class="dropdown-divider"></li>
+							<li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#about_modal" >&emsp;About</a></li>
+							
+						</ul>
+					</li>
+					
+					
+					&emsp;
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">View</a>
+						<ul class="dropdown-menu">
+							<li><a class="dropdown-item" href="#" onclick='flow_zoom_in();'>&emsp;Zoom in</a></li>
+							<li><a class="dropdown-item" href="#" onclick='flow_zoom_out();'>&emsp;Zoom Out</a></li>
+							<li><a class="dropdown-item" href="#" onclick='get_samplers();'>&emsp;Zoom Out</a></li>
+						</ul>
+					</li>
+					&emsp;
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Nodes</a>
+						<ul class="dropdown-menu" id='menu_nodes'>
+							<div id="menu_nodes_sub">
+							<!-- Nodes Menu from CSV -->
+								<li class="nav-item">
+									<a class="nav-link" role="button" aria-expanded="false">&emsp;Load CSV!</a>
+								</li>
+							</div>
+						</ul>
+					</li>
+					&emsp;
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Tools</a>
+						<ul class="dropdown-menu">
+							<li><a class="dropdown-item" href="#" onclick='flow_zoom_in();'>&emsp;Create Nodes CSV Tools</a></li>
+							
+							<li><hr class="dropdown-divider"></li>
+							
+							<li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#setting_modal">&emsp;Setting...</a></li>
+
+						</ul>
+					</li>					
+					
+					&emsp;
+					<li class="nav-item">
+						<a class="nav-link"  role="button" aria-expanded="false" onclick="render_root();"><i class="bi bi-play" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Generate"></i></a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link"  role="button" aria-expanded="false" onclick="stop_render();"><i class="bi bi-stop-fill" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Interrup"></i></a>
+					</li>
+				</ul>
+
+			</div>
+		  </div>
+		</nav>
+
+		<div style="width: 100%; height: 100vh;" style="position:absolute;top:0">
+			<div id="drawflow" style="height:100%;weigth:100%"></div>
+		</div> 
+		<div id='data_list'>
+		
+		</div>
+		
+	
+		<!-- Status Bar -->
+		<nav class="navbar sticky-bottom bg-body-tertiary" >
+			<div class="container-fluid">
+				<ul class="navbar-nav">
+					<li class="nav-item">
+						<span class="navbar-text">&emsp;</span><span class="navbar-text" id='status_bar'>Please Load a CSV file first!</span>
+					</li>
+				</ul>
+			</div>
+		</nav>
+		<!-- Status Bar -->
+
+
+		<!-- Save Change Modal -->
+		<div class="modal fade" id="save_change_modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+		  <div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+
+			  <div class="modal-body">
+				<h5>Save changes before closing?</h5>
+			  </div>
+			  <div class="modal-footer">
+
+				<button type="button" class="btn btn-primary" onclick='ui_open("load");'>Don't Save</button>
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+				
+			  </div>
+			</div>
+		  </div>
+		</div>
+		<!-- Save Change Modal -->
+		
+		<!-- About Modal -->
+		<div class="modal fade" id="about_modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+		  <div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+
+			  <div class="modal-body">
+				<h5>Prompts Generator v1.00</h5>
+			  </div>
+			  <div class="modal-footer">
+
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+				
+			  </div>
+			</div>
+		  </div>
+		</div>
+		<!-- About Modal -->
+		
+		<!-- Setting Modal -->
+		<div class="modal fade" id="setting_modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+		  <div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+
+			  <div class="modal-body">
+				<h5 class="mb-3">Setting</h5>
+				
+				<label for="csvFile" class="form-label">Stable Diffusion Webui URL</label>
+				<input class="form-control mb-2" type="text" id="ui_url" onchange='set_webui_url(this.value);' value="http://127.0.0.1:7860"/>
+			  
+				<label for="csvFile" class="form-label">Load Nodes CSV file</label>
+				<input class="form-control form-control-sm" type="file" id="csvFile" accept=".csv" onchange='open_file("csvFile");'/>
+			  </div>
+			  <div class="modal-footer">
+
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+				
+			  </div>
+			</div>
+		  </div>
+		</div>
+		<!-- Setting Modal -->
+	</body>
+
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js" integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N" crossorigin="anonymous"></script>
+	<script src="./js/js_drawflow_function.js"></script>
+	
+</html>
